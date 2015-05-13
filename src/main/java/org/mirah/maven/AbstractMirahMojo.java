@@ -47,11 +47,18 @@ public abstract class AbstractMirahMojo extends CompilerMojo {
     protected boolean verbose;
 
     /**
-     * Show log
+     * Enable new enhanced closures handling
      *
      * @parameter newClosures, default false
      */
     protected boolean newClosures;
+
+    /**
+     * The -encoding argument for the Mirahc compiler.
+     *
+     * @parameter expression="${encoding}" default-value="${project.build.sourceEncoding}"
+     */
+    private String encoding;
 
     protected List<String> getClassPathElements() {
         return classpathElements;
@@ -78,6 +85,12 @@ public abstract class AbstractMirahMojo extends CompilerMojo {
 
         if (newClosures) {
             arguments.add("-new-closures");
+        }
+
+        if (encoding != null) {
+            arguments.add("-encoding");
+            arguments.add(encoding);
+            getLog().info("Use source encoding: " + encoding);
         }
 
         File file = new File(sourceDirectory);
