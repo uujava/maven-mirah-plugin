@@ -49,7 +49,7 @@ public abstract class AbstractMirahMojo extends CompilerMojo {
     /**
      * Enable new enhanced closures handling
      *
-     * @parameter newClosures, default false
+     * @parameter newClosures, default true
      */
     protected boolean newClosures;
 
