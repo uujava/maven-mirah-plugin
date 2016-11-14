@@ -9,6 +9,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.codehaus.plexus.util.StringUtils;
 
 import org.mirah.tool.Mirahc;
@@ -16,11 +19,8 @@ import org.mirah.tool.Mirahc;
 /**
  * Compiles Mirah source files
  *
- * @phase test-compile
- * @goal testCompile
- * @requiresDependencyResolution test
- * @threadSafe
  */
+@Mojo(name = "testCompile", defaultPhase = LifecyclePhase.TEST_COMPILE, requiresDependencyResolution = ResolutionScope.TEST)
 public class MirahTestCompilerMojo extends AbstractMirahMojo {
 
     /**

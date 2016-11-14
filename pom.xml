@@ -7,13 +7,9 @@
         <version>5</version>
     </parent>
 
-    <properties>
-        <maven.version>2.2.1</maven.version>
-    </properties>
-
     <groupId>org.mirah.maven</groupId>
     <artifactId>maven-mirah-plugin</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.2</version>
     <packaging>maven-plugin</packaging>
 
     <name>maven-mirah-plugin</name>
@@ -50,17 +46,15 @@
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
-            <version>${maven.version}</version>
+            <version>3.0</version>
         </dependency>
+
+        <!-- dependencies to annotations -->
         <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-project</artifactId>
-            <version>${maven.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-utils</artifactId>
-            <version>2.0.1</version>
+            <groupId>org.apache.maven.plugin-tools</groupId>
+            <artifactId>maven-plugin-annotations</artifactId>
+            <version>3.4</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.mirah</groupId>
@@ -71,7 +65,7 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
             <type>maven-plugin</type>
-            <version>2.3.2</version>
+            <version>3.3</version>
         </dependency>
     </dependencies>
 
@@ -87,9 +81,10 @@
         <plugins>
             <plugin>
                 <artifactId>maven-plugin-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>3.2</version>
                 <configuration>
                     <goalPrefix>mirah</goalPrefix>
+                    <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
                 </configuration>
                 <executions>
                     <execution>
@@ -98,23 +93,17 @@
                             <goal>helpmojo</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>mojo-descriptor</id>
+                        <goals>
+                            <goal>descriptor</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-            </plugin>
-            <plugin>
-                <groupId>org.ops4j</groupId>
-                <artifactId>maven-inherit-plugin</artifactId>
-                <version>1.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>inherit</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <version>3.3</version>
             </plugin>
         </plugins>
     </build>

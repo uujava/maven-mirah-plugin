@@ -1,7 +1,6 @@
 package org.mirah.maven;
 
 import org.apache.maven.plugin.CompilerMojo;
-import org.apache.maven.plugin.CompilationFailureException;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import java.io.File;
@@ -9,6 +8,7 @@ import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.StringUtils;
 
 import org.mirah.tool.Mirahc;
@@ -17,33 +17,33 @@ public abstract class AbstractMirahMojo extends CompilerMojo {
     /**
      * Project classpath.
      *
-     * @parameter default-value="${project.compileClasspathElements}"
-     * @required
-     * @readonly
      */
+    @Parameter(defaultValue="${project.compileClasspathElements}", required = true, readonly = true)
     protected List<String> classpathElements;
     /**
      * The source directories containing the sources to be compiled.
      *
-     * @parameter default-value="${project.compileSourceRoots}"
-     * @required
-     * @readonly
      */
+    @Parameter(defaultValue="${project.compileSourceRoots}" , required = true, readonly = true)
     protected List<String> compileSourceRoots;
     /**
      * Classes destination directory
-     * @parameter expression="${project.build.outputDirectory}"
+     *
      */
+    @Parameter(defaultValue="${project.build.outputDirectory}")
     protected String outputDirectory;
     /**
      * Classes source directory
-     * @parameter expression="${basedir}/src/main/mirah"
+     *
      */
+    @Parameter(defaultValue="${basedir}/src/main/mirah}")
     protected String sourceDirectory;
     /**
      * Show log
+     *
      * @parameter verbose, default false
      */
+    @Parameter(defaultValue="false")
     protected boolean verbose;
 
 
@@ -53,6 +53,16 @@ public abstract class AbstractMirahMojo extends CompilerMojo {
      * @parameter expression="${encoding}" default-value="${project.build.sourceEncoding}"
      */
     private String encoding;
+
+    public static void mojoCompile(List<String> arguments) throws MojoExecutionException {
+        try {
+            Mirahc mirahc = new Mirahc();
+            int result = mirahc.compile(arguments.toArray(new String[arguments.size()]));
+            if (result != 0) throw new MojoExecutionException("Compilation failed with arguments: " + arguments);
+        } catch (Exception e) {
+            throw new MojoExecutionException(e.getMessage(), e);
+        }
+    }
 
     protected List<String> getClassPathElements() {
         return classpathElements;
@@ -67,7 +77,7 @@ public abstract class AbstractMirahMojo extends CompilerMojo {
         List<String> arguments = new ArrayList<String>();
         if (!bytecode) {
             arguments.add("-plugins");
-            arguments.add("stub:" + output+ "|+pl");
+            arguments.add("stub:" + output + "|+pl");
             arguments.add("--skip-compile");
         }
         if (verbose)
@@ -94,15 +104,5 @@ public abstract class AbstractMirahMojo extends CompilerMojo {
             mojoCompile(arguments);
         }
 
-    }
-
-    public static void mojoCompile(List<String> arguments) throws MojoExecutionException {
-        try {
-            Mirahc mirahc = new Mirahc();
-            int result = mirahc.compile(arguments.toArray(new String[arguments.size()]));
-            if (result != 0) throw new MojoExecutionException("Compilation failed with arguments: " + arguments);
-        } catch (Exception e) {
-            throw new MojoExecutionException(e.getMessage(), e);
-        }
     }
 }
