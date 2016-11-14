@@ -8,11 +8,11 @@
     </parent>
 
     <groupId>org.mirah.maven</groupId>
-    <artifactId>maven-mirah-plugin</artifactId>
+    <artifactId>mirah-maven-plugin</artifactId>
     <version>1.2</version>
     <packaging>maven-plugin</packaging>
 
-    <name>maven-mirah-plugin</name>
+    <name>mirah-maven-plugin</name>
     <url>https://github.com/mirah/maven-mirah-compiler</url>
 
     <licenses>
@@ -64,7 +64,6 @@
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
-            <type>maven-plugin</type>
             <version>3.3</version>
         </dependency>
     </dependencies>
