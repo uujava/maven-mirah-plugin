@@ -46,12 +46,6 @@ public abstract class AbstractMirahMojo extends CompilerMojo {
      */
     protected boolean verbose;
 
-    /**
-     * Enable new enhanced closures handling
-     *
-     * @parameter newClosures, default true
-     */
-    protected boolean newClosures;
 
     /**
      * The -encoding argument for the Mirahc compiler.
@@ -64,15 +58,18 @@ public abstract class AbstractMirahMojo extends CompilerMojo {
         return classpathElements;
     }
 
-    protected void executeMirahCompiler(String output, String sourceDirectory, boolean verbose, boolean newClosures, boolean bytecode) throws MojoExecutionException {
+    protected void executeMirahCompiler(String output, String sourceDirectory, boolean verbose, boolean bytecode) throws MojoExecutionException {
         File d = new File(output);
         if (!d.exists()) {
             d.mkdirs();
         }
 
         List<String> arguments = new ArrayList<String>();
-        if (!bytecode)
-            arguments.add("--java");
+        if (!bytecode) {
+            arguments.add("-plugins");
+            arguments.add("stub:" + output+ "|+pl");
+            arguments.add("--skip-compile");
+        }
         if (verbose)
             arguments.add("-V");
 
@@ -82,10 +79,6 @@ public abstract class AbstractMirahMojo extends CompilerMojo {
         /* do I really need this? */
         arguments.add("-cp");
         arguments.add(StringUtils.join(getClassPathElements().iterator(), File.pathSeparator));
-
-        if (newClosures) {
-            arguments.add("-new-closures");
-        }
 
         if (encoding != null) {
             arguments.add("-encoding");

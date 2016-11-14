@@ -79,7 +79,7 @@ public class MirahTestCompilerMojo extends AbstractMirahMojo {
         if (skip) {
             getLog().info("skiping mirah tests compilation");
         } else {
-            executeMirahCompiler(outputDirectory, sourceDirectory, verbose, newClosures, true);
+            executeMirahCompiler(outputDirectory, sourceDirectory, verbose, true);
         }
     }
 
