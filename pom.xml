@@ -9,12 +9,11 @@
 
     <properties>
         <maven.version>2.2.1</maven.version>
-        <build.number>SNAPSHOT</build.number>
     </properties>
 
     <groupId>org.mirah.maven</groupId>
     <artifactId>maven-mirah-plugin</artifactId>
-    <version>1.2.${build.number}</version>
+    <version>1.2-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <name>maven-mirah-plugin</name>
@@ -83,20 +82,6 @@
             <!--url>http://localhost:8081/artifactory/repo</url-->
         </repository>
     </repositories>
-
-    <profiles>
-        <profile>
-            <id>teamcity</id>
-            <activation>
-                <os>
-                    <family>unix</family>
-                </os>
-            </activation>
-            <properties>
-                <build.number>${env.BUILD_NUMBER}</build.number>
-            </properties>
-        </profile>
-    </profiles>
 
     <build>
         <plugins>
